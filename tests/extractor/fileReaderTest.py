@@ -48,7 +48,7 @@ class fileReaderTest(unittest.TestCase):
 
         data = reader.result
 
-        expected_date = "2002-05-31"
+        expected_date = date(2002, 5, 31)
 
         record = data[0]
         self.assertEqual("{4E95D757-1CA7-EDA1-E050-A8C0630539E2}", record.guid, "guid")

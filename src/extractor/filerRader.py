@@ -1,5 +1,7 @@
 import codecs
 import csv
+from datetime import date
+
 from extractor.rawSellData import RawSellData
 
 
@@ -33,7 +35,8 @@ class FileReader():
     def _parse_line(self, line):
         guid = line[0]
         price = float(line[1])
-        date = line[2][0:10]  # get yyyy-MM-dd
+        date_ = self._parse_date(line[2])  #   datetime.strptime(line[2], "%Y-%m-%d").date() # datetime parsing is so crappy that I prefer to do it myself.  [0:10]  # get yyyy-MM-dd
+        print(date)
         postcode = line[3]
         property_type = line[4]
         yn = line[5]
@@ -50,8 +53,14 @@ class FileReader():
         x = line[14]
         action = line[15]  # Add, Change, Delete
 
-        return RawSellData(guid, price, date, postcode, property_type, yn, hold_type,
+        return RawSellData(guid, price, date_, postcode, property_type, yn, hold_type,
                            paon, saon, street, locality, city, district, county, x, action)
+
+    def _parse_date(self, text):
+        try:
+            return date(int(text[0:4]), int(text[5:7]), int(text[8:10]))
+        except:
+            raise Exception("Fail to parse date. String: '{}'.".format(text))
 
 
 if __name__ == "__main__":
