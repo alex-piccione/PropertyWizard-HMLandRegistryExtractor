@@ -33,7 +33,7 @@ class FileReader():
     def _parse_line(self, line):
         guid = line[0]
         price = float(line[1])
-        date = line[2]
+        date = line[2][0:10]  # get yyyy-MM-dd
         postcode = line[3]
         property_type = line[4]
         yn = line[5]

@@ -1,16 +1,16 @@
 class RawSellData:
 
-    def __init__(self, guid, price,date, postcode, propertyType, yn, holdType,
+    def __init__(self, guid, price, date, post_code, property_type, yn, holding_Type,
                  paon, saon, street, locality, city, district, county, x, action
                  ):
 
         self.guid = guid
         self.price = price
         self.date = date
-        self.postcode = postcode
-        self.type = propertyType
+        self.post_code = post_code
+        self.type = property_type
         self.yn = yn
-        self.holdType = holdType
+        self.holding_Type = holding_Type
 
         self.paon = paon
         self.saon = saon
