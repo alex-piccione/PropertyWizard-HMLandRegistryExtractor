@@ -38,43 +38,44 @@ The following fields comprise the address data included in Price Paid Data:
 
 First record in 2017/05 CSV data
 
-Id:         {4E95D757-1CA7-EDA1-E050-A8C0630539E2}
-Price:      970000	
-Date:       2002-05-31 00:00	
-Post code:  SW3 2BZ	
-Type:       F	
-??2:        N	
-??3:        L	
-PAON:       46	
-SAON:       FLAT 4	
-Street:     EGERTON GARDENS
+<pre>
+Id:             {4E95D757-1CA7-EDA1-E050-A8C0630539E2}
+Price:          970000	
+Date:           2002-05-31 00:00	
+Post code:      SW3 2BZ	
+Type:           F	
+??2:            N	
+Holding type:   L	
+PAON:           46	
+SAON:           FLAT 4	
+Street:         EGERTON GARDENS
 Locality:        
-City:       LONDON	
-Ditrict:    KENSINGTON AND CHELSEA	
-County:     GREATER LONDON	
-??7:        A	
-??8:        A
+City:           LONDON	
+District:       KENSINGTON AND CHELSEA	
+County:         GREATER LONDON	
+??7:            A	
+Action:         A
 
-- Id:       it is a GUID wrapped in curly brackets
-- Price:    Sell price in GBP
-- Date:     Date of the sell?
+- Id:           It is a GUID wrapped in curly brackets. It is duplicated also for completely different properties. What is it related to?
+- Price:        Sell price in GBP
+- Date:         The date of the sell
    - Year
    - Month
-- Post code: can be empty. 
+- Post code:    can be empty. 
    - Partial post code. Obtained form the 4 initial characters and removing the space return the partial post code.
-- Type: Can be D/F/O/S/T  (Detached, Semi-detached, Terraced, Flat, Other)
-- ??2: Can be Y/N, (Yes/No) (Leasehold) 
-- Lasehold/Freehold: Can be: L/F (Leasehold, Freehold)
-- PAON: Primary addressable object name. Typically the house number or name
-- SAON: Secondary Addressable Object Name. If there is a sub-building, for example the building is divided into flats, there will be a SAON.
+- Type:         D/F/O/S/T  (Detached, Semi-detached, Terraced, Flat, Other)
+- ??2:          Y/N, (Yes/No)  
+- Holding type: L/F (Leasehold, Freehold)
+- PAON:         Primary addressable object name. Typically the house number or name
+- SAON:         Secondary Addressable Object Name. If there is a sub-building, for example the building is divided into flats, there will be a SAON.
 - Street:
 - Locality:
-- City:             Town or City
+- City:         Town or City
 - District:
 - County:
-- ??7: can be A/B
-- ??8: can be A/C/D  (record status notation? Add, Change, Delete ?)
-
+- ??7:          A/B
+- action:       A/C/D  (record status notation? Add, Change, Delete ?)
+</pre>
   
 Some prices seems wrong. For example 1£ or 125 million of pounds.  
 The second case could be an error inserting the value with a wrong decimal character resulting 100 times more, so it could be 1million, and it is possible compared to other apartment in the same building.
