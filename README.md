@@ -1,5 +1,7 @@
 # Property Wizard - HM Land Registry Extractor
-Data extractor of the HM Land Registry public data
+
+Data extractor of the HM Land Registry public data.
+Python process hosted in a Django web site.
 
 # Source
 
@@ -8,12 +10,14 @@ https://www.gov.uk/government/collections/price-paid-data
 
 # HM Land Registry
 
-## 
+## Disclaimer
 When using or publishing our Price Paid Data
 If you use or publish our price paid data, you must add the following attribution statement:
 
+```
 Data produced by HM Land Registry © Crown copyright 2017.
 Price Paid Data is released under Open Government Licence (OGL). Under the OGL, HM Land Registry permits you to use the Price Paid Data for commercial or non-commercial purposes. However, OGL does not cover the use of third party rights, which we are not authorised to license.
+```
 
 Price Paid Data contains address data processed against Ordnance Survey’s AddressBase Premium product, which incorporates Royal Mail’s PAF® database (Address Data). Royal Mail and Ordnance Survey, permits your use of Address Data in the Price Paid Data:
 
@@ -36,7 +40,7 @@ The following fields comprise the address data included in Price Paid Data:
 
 ## Real data
 
-First record in 2017/05 CSV data
+First record in 2017/05 CSV data:
 
 <pre>
 Id:             {4E95D757-1CA7-EDA1-E050-A8C0630539E2}
@@ -55,7 +59,10 @@ District:       KENSINGTON AND CHELSEA
 County:         GREATER LONDON	
 ??7:            A	
 Action:         A
+</pre>
 
+Description of the fields:
+<pre>
 - Id:           It is a GUID wrapped in curly brackets. It is duplicated also for completely different properties. What is it related to?
 - Price:        Sell price in GBP
 - Date:         The date of the sell
