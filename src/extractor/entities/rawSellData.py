@@ -11,9 +11,9 @@ class RawSellData:
         self.price = price
         self.date = date
         self.post_code = post_code
-        self.type = property_type
+        self.property_type = property_type
         self.yn = yn
-        self.holding_Type = holding_type
+        self.holding_type = holding_type
 
         self.paon = paon
         self.saon = saon

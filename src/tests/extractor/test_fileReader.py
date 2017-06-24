@@ -54,8 +54,8 @@ class fileReaderTest(unittest.TestCase):
         self.assertEqual("{4E95D757-1CA7-EDA1-E050-A8C0630539E2}", record.transaction_id, "transaction_id")
         self.assertEqual(970000, record.price, "price")
         self.assertEqual(expected_date, record.date, "date")
-        self.assertEqual("SW3 2BZ", record.post_code, "post code")
-        self.assertEqual("F", record.type, "type")
+        self.assertEqual("SW3 2BZ", record.post_code, "post_code")
+        self.assertEqual("F", record.property_type, "property_type")
         self.assertEqual("N", record.yn, "yn")
         self.assertEqual("L", record.holding_Type, "holding_Type")
 
