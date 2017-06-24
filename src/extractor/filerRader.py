@@ -2,7 +2,7 @@ import codecs
 import csv
 from datetime import date
 
-from extractor.rawSellData import RawSellData
+from extractor.entities.rawSellData import RawSellData
 
 
 class FileReader():

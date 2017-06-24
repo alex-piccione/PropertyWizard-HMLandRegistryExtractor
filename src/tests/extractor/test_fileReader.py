@@ -51,7 +51,7 @@ class fileReaderTest(unittest.TestCase):
         expected_date = date(2002, 5, 31)
 
         record = data[0]
-        self.assertEqual("{4E95D757-1CA7-EDA1-E050-A8C0630539E2}", record.guid, "guid")
+        self.assertEqual("{4E95D757-1CA7-EDA1-E050-A8C0630539E2}", record.transaction_id, "transaction_id")
         self.assertEqual(970000, record.price, "price")
         self.assertEqual(expected_date, record.date, "date")
         self.assertEqual("SW3 2BZ", record.post_code, "post code")
