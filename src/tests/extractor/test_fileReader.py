@@ -57,7 +57,7 @@ class fileReaderTest(unittest.TestCase):
         self.assertEqual("SW3 2BZ", record.post_code, "post_code")
         self.assertEqual("F", record.property_type, "property_type")
         self.assertEqual("N", record.yn, "yn")
-        self.assertEqual("L", record.holding_Type, "holding_Type")
+        self.assertEqual("L", record.holding_type, "holding_type")
 
         self.assertEqual("paon", record.paon, "paon")
         self.assertEqual("saon", record.saon, "saon")

@@ -15,27 +15,19 @@ from tests.extractor import config  ## dev config
 class SellDataMongoRepositoryTest(unittest.TestCase):
 
     def setUp(self):
-        print("setup")
         connection_string = config.mongo_connection_string
         database_name = config.mongo_database_name
         self.repository = SellDataMongoRepository(connection_string, database_name)
         self.database = MongoClient(connection_string)[database_name]
 
-    def tearDown(self):
-        pass
-
 
     def test_init__should__create_client_and_db(self):
-
         connection_string = "connection_string"
         database_name = "database_name"
-
         repository = SellDataMongoRepository(connection_string, database_name)
-
         assert repository  # is not None
         assert repository.client
         assert repository.db
-
 
     def test_save__should__populate_the_right_fields(self):
 

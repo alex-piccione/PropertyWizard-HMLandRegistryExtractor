@@ -25,7 +25,7 @@ class SellDataMongoRepository:
 
         document = {
             "id_": id_,
-            "insert_date": datetime.utcnow(),
+            "create_date": datetime.utcnow(),
 
             "transaction_id": item.transaction_id,
             "price": item.price,
