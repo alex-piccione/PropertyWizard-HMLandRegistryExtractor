@@ -16,7 +16,7 @@ class FileReader():
 
     def read(self, file_, has_headers = False):
 
-        logger.debug(f"read file ""{file_}""")
+        logger.debug(f'read file "{file_}"')
 
         self.errors = []
         self.result = []
