@@ -12,7 +12,7 @@ class FileReader():
     def __init__(self):
 
         self.errors = None
-        self.result = None
+        self.records = None
 
     def read(self, file_, has_headers = False):
         '''
@@ -23,10 +23,11 @@ class FileReader():
         :return: an array of RawSellData
         '''
 
-        logger.debug(f'read file "{file_}"')
+
+        logger.info(f'Read file "{file_}"')
 
         self.errors = []
-        self.result = []
+        self.records = []
 
         with codecs.open(file_, "rt") as csv_file:
             reader = csv.reader(csv_file)
@@ -37,11 +38,13 @@ class FileReader():
             for line in reader:
                 try:
                     sell_data = self._parse_line(line)
-                    self.result.append(sell_data)
+                    self.records.append(sell_data)
                 except Exception as exc:
                     self.errors.append(str(exc))
 
-        return self.result
+        logger.info(f'Read end. Records: {len(self.records)}.')
+
+        return self.records
 
 
     def _parse_line(self, line):
@@ -71,22 +74,4 @@ class FileReader():
         try:
             return date(int(text[0:4]), int(text[5:7]), int(text[8:10]))
         except:
-            raise Exception("Fail to parse date. String: '{}'.".format(text))
-
-
-if __name__ == "__main__":
-
-    filename = "example pp 15 rows.csv"
-    f = FileReader()
-    f.read(filename)
-
-    if f.errors and len(f.errors) > 0:
-        print("Errors: {0}".format(len(f.errors)))
-        for e in f.errors:
-            print(e)
-        exit(1)
-
-    result = f.result
-    for d in result:
-        print("Guid: {guid}".format(guid = d.guid))
-
+            raise Exception(f'Fail to parse date. Text: "{text}".')

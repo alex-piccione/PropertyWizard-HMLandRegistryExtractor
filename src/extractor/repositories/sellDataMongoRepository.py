@@ -5,6 +5,7 @@ from extractor.repositories import logger, \
     COLLECTION_HM_PRICE_DATA_RAW_EXTRACTION
 from extractor.entities.rawSellData import RawSellData
 
+
 class SellDataMongoRepository:
 
     def __init__(self, connection_string, database_name):
@@ -15,6 +16,7 @@ class SellDataMongoRepository:
 
         self.client = MongoClient(connection_string)
         self.db = self.client[database_name]
+
 
     def save(self, item: RawSellData) -> int:
 
@@ -56,7 +58,9 @@ class SellDataMongoRepository:
         else:
             raise Exception("Not acknowledged")
 
+
     def list(self, start_date):
+
         filter_ = {"date": {"$gte": start_date}}
         result = self.db[COLLECTION_HM_PRICE_DATA_RAW_EXTRACTION].find(filter_)
         items = []
