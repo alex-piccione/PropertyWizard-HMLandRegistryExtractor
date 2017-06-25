@@ -6,7 +6,7 @@ log_level = logging.INFO
 class Logger:
 
     @staticmethod
-    def create(name, log_min_level=log_level, folder="logs"):
+    def create(name, log_min_level=log_level, folder="logs") -> logging:
 
         log_file = os.path.join(os.getcwd(), "{0}\{1}.log".format(folder, name))
         log_dir = os.path.dirname(log_file)

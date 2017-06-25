@@ -21,10 +21,10 @@ class SellDataMongoRepository:
         import random
         import sys
 
-        id_ = random.randint(1, sys.maxsize)
+        _id = random.randint(1, sys.maxsize)
 
         document = {
-            "id_": id_,
+            "_id": _id,
             "create_date": datetime.utcnow(),
 
             "transaction_id": item.transaction_id,
@@ -53,3 +53,10 @@ class SellDataMongoRepository:
             return result.inserted_id
         else:
             raise Exception("Not acknowledged")
+
+    def list(self, start_date):
+        filter_ = {"date": {"$gte": start_date}}
+        result = self.db[COLLECTION_HM_PRICE_DATA_RAW_EXTRACTION].find(filter_)
+        items = list(result)
+        return items
+

@@ -1,6 +1,5 @@
 import unittest
-from datetime import date
-from datetime import datetime
+from datetime import date, datetime, timedelta
 import uuid
 from uuid import UUID
 from pymongo import MongoClient
@@ -90,14 +89,49 @@ class SellDataMongoRepositoryTest(unittest.TestCase):
 
             assert saved_document
 
-            assert "id_" in saved_document
+            assert "_id" in saved_document
             assert "create_date" in saved_document
 
             # self.assertIs(saved_document["insert_date"], ) # todo: check type
-            # todo: check it is less than 5 seconds ago
+            # todo: check it is not before 5 seconds ago
 
         finally:
             self._delete_record(sell_data.transaction_id)  # clean up
+
+
+    def test_list(self):
+
+        start_date = datetime.utcnow() - timedelta(days=1)
+        start_date = start_date.replace(hour=0, minute=0, second=0, microsecond=0)
+
+        old_item = self._create_RawSellData()
+        old_item.date = start_date - timedelta(days=1)
+
+        new_item = self._create_RawSellData()
+        new_item.date = start_date
+
+        try:
+            old_id = self._save_item(old_item)
+            new_id = self._save_item(new_item)
+
+            # execute
+            items = self.repository.list(start_date)
+
+            assert items
+            assert isinstance(items, list)
+
+            assert len(items) > 0
+            # assert isinstance(items[0], RawSellData)
+
+            # assert len(list(filter(lambda i: i.id == old_id, items))) == 0
+            # assert len(list(filter(lambda i: i.id == new_id, items))) == 1
+
+            assert len(list(filter(lambda i: i["_id"] == old_id, items))) == 0
+            assert len(list(filter(lambda i: i["_id"] == new_id, items))) == 1
+
+        finally:
+            self._delete_record(old_item.transaction_id)
+            self._delete_record(old_item.transaction_id)
 
 
     # private utility
@@ -111,6 +145,10 @@ class SellDataMongoRepositoryTest(unittest.TestCase):
 
     def _get_collection(self):
         return self.database[COLLECTION_HM_PRICE_DATA_RAW_EXTRACTION]
+
+    def _save_item(self, sell_data):
+        id = self.repository.save(sell_data)
+        return id
 
     def _create_RawSellData(self) -> RawSellData:
         transaction_id = uuid.uuid4()  # random
