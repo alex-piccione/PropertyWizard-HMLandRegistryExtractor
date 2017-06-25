@@ -1,8 +1,7 @@
 from pymongo import MongoClient
-from datetime import datetime, date
-import dateutil.parser
+from datetime import datetime
 
-from extractor.repositories import logger, utils, \
+from extractor.repositories import logger, \
     COLLECTION_HM_PRICE_DATA_RAW_EXTRACTION
 from extractor.entities.rawSellData import RawSellData
 
@@ -22,11 +21,13 @@ class SellDataMongoRepository:
         import random
         import sys
 
+        # generate id
         _id = random.randint(1, sys.maxsize)
+        create_date = datetime.utcnow()
 
         document = {
             "_id": _id,
-            "create_date": datetime.utcnow(),
+            "create_date": create_date,
 
             "transaction_id": item.transaction_id,
             "price": item.price,
@@ -58,13 +59,19 @@ class SellDataMongoRepository:
     def list(self, start_date):
         filter_ = {"date": {"$gte": start_date}}
         result = self.db[COLLECTION_HM_PRICE_DATA_RAW_EXTRACTION].find(filter_)
-        items = list(result)
+        items = []
+        for document in result:
+            item = self._parse_document(document)
+            items.append(item)
         return items
 
 
     def _parse_document(self, document) -> RawSellData:
 
         try:
+            _id = int(document["_id"])
+            create_date = document["create_date"]
+
             transaction_id = document["transaction_id"]
             price = document["price"]
             date_ = document["date"]
@@ -87,7 +94,11 @@ class SellDataMongoRepository:
                                paon, saon, street, locality, city, district, county,
                                x, action)
 
+            data.id = _id
+            data.create_date = create_date
+
             return data
+
         except Exception as error:
             raise ValueError(f"Fail to parse database document. Document: {document}.", error)
 

@@ -7,6 +7,9 @@ class RawSellData:
                  paon: str, saon: str, street: str, locality: str, city: str, district: str, county: str, x: str, action: str
                  ):
 
+        self.id = 0
+        self.create_date = None
+
         self.transaction_id = transaction_id
         self.price = price
         self.date = date

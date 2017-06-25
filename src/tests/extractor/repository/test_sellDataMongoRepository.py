@@ -121,13 +121,10 @@ class SellDataMongoRepositoryTest(unittest.TestCase):
             assert isinstance(items, list)
 
             assert len(items) > 0
-            # assert isinstance(items[0], RawSellData)
+            assert isinstance(items[0], RawSellData)
 
-            # assert len(list(filter(lambda i: i.id == old_id, items))) == 0
-            # assert len(list(filter(lambda i: i.id == new_id, items))) == 1
-
-            assert len(list(filter(lambda i: i["_id"] == old_id, items))) == 0
-            assert len(list(filter(lambda i: i["_id"] == new_id, items))) == 1
+            assert len(list(filter(lambda i: i.id == old_id, items))) == 0
+            assert len(list(filter(lambda i: i.id == new_id, items))) == 1
 
         finally:
             self._delete_record(old_item.transaction_id)
