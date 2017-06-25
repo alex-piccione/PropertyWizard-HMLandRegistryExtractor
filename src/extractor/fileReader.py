@@ -2,8 +2,10 @@ import codecs
 import csv
 from datetime import date
 
+from extractor.logger import Logger
 from extractor.entities.rawSellData import RawSellData
 
+logger = Logger.create(__name__)
 
 class FileReader():
 
@@ -13,7 +15,9 @@ class FileReader():
         self.result = None
 
     def read(self, file_, has_headers = False):
-        print("read")
+
+        logger.debug(f"read file ""{file_}""")
+
         self.errors = []
         self.result = []
 
@@ -32,11 +36,11 @@ class FileReader():
 
         return self.result
 
+
     def _parse_line(self, line):
         guid = line[0]
         price = float(line[1])
         date_ = self._parse_date(line[2])  # datetime.strptime(line[2], "%Y-%m-%d").date() # datetime parsing is so crappy that I prefer to do it myself.  [0:10]  # get yyyy-MM-dd
-        print(date)
         postcode = line[3]
         property_type = line[4]
         yn = line[5]

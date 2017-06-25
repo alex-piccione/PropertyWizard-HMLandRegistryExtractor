@@ -2,7 +2,7 @@ import unittest
 import os
 from datetime import date
 
-from src.extractor.filerRader import FileReader
+from src.extractor.fileReader import FileReader
 
 DATA_FOLDER = "../data"
 TEST_FILE = "example pp 15 rows.csv"
