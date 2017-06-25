@@ -1,15 +1,13 @@
 import unittest
 from datetime import date, datetime, timedelta
 import uuid
-from uuid import UUID
 from pymongo import MongoClient
-
 
 from src.extractor.repositories.sellDataMongoRepository import SellDataMongoRepository
 from src.extractor.repositories import COLLECTION_HM_PRICE_DATA_RAW_EXTRACTION
 from extractor.entities.rawSellData import RawSellData
 
-from tests.extractor import config  ## dev config
+from tests.extractor import config  # dev config
 
 class SellDataMongoRepositoryTest(unittest.TestCase):
 
@@ -192,7 +190,7 @@ class SellDataMongoRepositoryTest(unittest.TestCase):
     def _create_RawSellData(self) -> RawSellData:
         transaction_id = uuid.uuid4()  # random
         price = 1.23
-        date_ = datetime.today()
+        date_ = date(2002, 5, 31)
         post_code = "post code"
         property_type = "property type"
         yn = "y"

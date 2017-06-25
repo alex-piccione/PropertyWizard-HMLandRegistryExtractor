@@ -15,8 +15,6 @@ class Process():
 
         logger.info('Run.')
 
-        records = None
-
         # load file
         try:
             records = self.file_reader.read(csv_file, False)
@@ -33,4 +31,5 @@ class Process():
         except Exception as error:
             return logger.fatal(f"Fail to save records. {error}")
 
+        logger.info(f'Process end.')
 

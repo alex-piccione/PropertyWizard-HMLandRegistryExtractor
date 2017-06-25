@@ -9,7 +9,7 @@ from extractor.entities.rawSellData import RawSellData
 class SellDataMongoRepository:
 
     def __init__(self, connection_string, database_name):
-        logger.info('Initialize. Database: {0}, HM_PRICE_DATA_RAW_EXTRACTION: "{1}".'.format(
+        logger.info('Initialize. Database: "{0}", HM_PRICE_DATA_RAW_EXTRACTION: "{1}".'.format(
             database_name, COLLECTION_HM_PRICE_DATA_RAW_EXTRACTION))
 
         # http://api.mongodb.com/python/current/tutorial.html?_ga=1.114535310.822912736.1490913716
