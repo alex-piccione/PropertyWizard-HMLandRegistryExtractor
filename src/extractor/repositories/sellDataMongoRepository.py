@@ -1,7 +1,8 @@
 from pymongo import MongoClient
-from datetime import datetime
+from datetime import datetime, date
+import dateutil.parser
 
-from extractor.repositories import logger, \
+from extractor.repositories import logger, utils, \
     COLLECTION_HM_PRICE_DATA_RAW_EXTRACTION
 from extractor.entities.rawSellData import RawSellData
 
@@ -59,4 +60,34 @@ class SellDataMongoRepository:
         result = self.db[COLLECTION_HM_PRICE_DATA_RAW_EXTRACTION].find(filter_)
         items = list(result)
         return items
+
+
+    def _parse_document(self, document) -> RawSellData:
+
+        try:
+            transaction_id = document["transaction_id"]
+            price = document["price"]
+            date_ = document["date"]
+            post_code = document["post_code"]
+            property_type = document["property_type"]
+            yn = document["yn"]
+            holding_type = document["holding_type"]
+            paon = document["paon"]
+            saon = document["saon"]
+            street = document["street"]
+            locality = document["locality"]
+            city = document["city"]
+            district = document["district"]
+            county = document["county"]
+            x = document["x"]
+            action = document["action"]
+
+            data = RawSellData(transaction_id, price, date_, post_code,
+                               property_type, yn, holding_type,
+                               paon, saon, street, locality, city, district, county,
+                               x, action)
+
+            return data
+        except Exception as error:
+            raise ValueError(f"Fail to parse database document. Document: {document}.", error)
 
