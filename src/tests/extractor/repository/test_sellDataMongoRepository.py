@@ -127,39 +127,48 @@ class SellDataMongoRepositoryTest(unittest.TestCase):
             assert len(list(filter(lambda i: i.id == new_id, items))) == 1
 
         finally:
-            self._delete_record(old_item.transaction_id)
-            self._delete_record(old_item.transaction_id)
+            self._delete_document(old_id)
+            self._delete_document(new_id)
 
     def test_parse_document(self):
 
-        item = self._create_RawSellData()
-        _id = self._save_item(item)
-        document = self._get_document(item.transaction_id)
+        _id = None
 
-        # execute
-        item = self.repository._parse_document(document)
+        try:
 
-        assert isinstance(item, RawSellData)
+            item = self._create_RawSellData()
+            _id = self._save_item(item)
+            document = self._get_document(item.transaction_id)
 
-        self.assertEqual(item.transaction_id, document["transaction_id"])
-        self.assertEqual(item.price, document["price"])
-        document_date = document["date"]
-        self.assertEqualDate(item.date, document_date)
-        self.assertEqual(item.post_code, document["post_code"])
-        self.assertEqual(item.property_type, document["property_type"])
-        self.assertEqual(item.yn, document["yn"])
-        self.assertEqual(item.holding_type, document["holding_type"])
+            # execute
+            item = self.repository._parse_document(document)
 
-        self.assertEqual(item.paon, document["paon"])
-        self.assertEqual(item.saon, document["saon"])
-        self.assertEqual(item.street, document["street"])
-        self.assertEqual(item.locality, document["locality"])
-        self.assertEqual(item.city, document["city"])
-        self.assertEqual(item.district, document["district"])
-        self.assertEqual(item.county, document["county"])
+            assert isinstance(item, RawSellData)
 
-        self.assertEqual(item.x, document["x"])
-        self.assertEqual(item.action, document["action"])
+            self.assertEqual(item.transaction_id, document["transaction_id"])
+            self.assertEqual(item.price, document["price"])
+            document_date = document["date"]
+            self.assertEqualDate(item.date, document_date)
+            self.assertEqual(item.post_code, document["post_code"])
+            self.assertEqual(item.property_type, document["property_type"])
+            self.assertEqual(item.yn, document["yn"])
+            self.assertEqual(item.holding_type, document["holding_type"])
+
+            self.assertEqual(item.paon, document["paon"])
+            self.assertEqual(item.saon, document["saon"])
+            self.assertEqual(item.street, document["street"])
+            self.assertEqual(item.locality, document["locality"])
+            self.assertEqual(item.city, document["city"])
+            self.assertEqual(item.district, document["district"])
+            self.assertEqual(item.county, document["county"])
+
+            self.assertEqual(item.x, document["x"])
+            self.assertEqual(item.action, document["action"])
+
+        finally:
+            if _id:
+                self._delete_document(_id)
+
 
     # private utility
 
@@ -169,6 +178,9 @@ class SellDataMongoRepositoryTest(unittest.TestCase):
 
     def _delete_record(self, transaction_id):
         self._get_collection().delete_one({"transaction_id": transaction_id})
+
+    def _delete_document(self, _id):
+        self._get_collection().delete_one({"_id": _id})
 
     def _get_collection(self):
         return self.database[COLLECTION_HM_PRICE_DATA_RAW_EXTRACTION]
