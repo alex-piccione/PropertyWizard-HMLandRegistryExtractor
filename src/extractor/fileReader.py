@@ -15,6 +15,13 @@ class FileReader():
         self.result = None
 
     def read(self, file_, has_headers = False):
+        '''
+        Parse the CSV file.
+
+        :param file_: CSV file
+        :param has_headers: fisrt row contains fields names?
+        :return: an array of RawSellData
+        '''
 
         logger.debug(f'read file "{file_}"')
 

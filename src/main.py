@@ -1,13 +1,26 @@
 import sys
 
 from extractor.logger import Logger
-
+from extractor.process import Process
+from extractor.fileReader import FileReader
+from extractor.repositories.sellDataMongoRepository import SellDataMongoRepository
 
 logger = Logger.create(__name__)
 
 def run(csv_file: str):
     logger.info(f"Run. CSV file: {csv_file}")
 
+    file_reader = FileReader()
+    connection_string = "what?"
+    database_name = "who?"
+    sell_data_repository = SellDataMongoRepository(connection_string, database_name)
+
+    process = Process(file_reader, sell_data_repository)
+
+    try:
+        process.run(csv_file)
+    except Exception as error:
+        logger.fatal(f'Fail to run process on CSV file "{csv_file}". {error}')
 
 
 if __name__ == "__main__":
