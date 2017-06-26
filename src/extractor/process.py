@@ -27,7 +27,7 @@ class Process():
             for record in records:
                 # if record.action == "a":
                 self.raw_data_repository.save(record)
-            logger.info(f'All record saved.')
+            logger.info(f'All records saved.')
         except Exception as error:
             return logger.fatal(f"Fail to save records. {error}")
 

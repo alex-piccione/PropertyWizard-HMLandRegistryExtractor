@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 from datetime import datetime, date
+import uuid
 
 from extractor.repositories import logger, \
     COLLECTION_HM_PRICE_DATA_RAW_EXTRACTION
@@ -20,11 +21,7 @@ class SellDataMongoRepository:
 
     def save(self, item: RawSellData) -> int:
 
-        import random
-        import sys
-
-        # generate id
-        _id = random.randint(1, sys.maxsize)
+        _id = uuid.uuid4()  # random
         create_date = datetime.utcnow()
 
         self._change_date_to_datetime(item)
@@ -75,7 +72,7 @@ class SellDataMongoRepository:
     def _parse_document(self, document) -> RawSellData:
 
         try:
-            _id = int(document["_id"])
+            _id = document["_id"]
             create_date = document["create_date"]
 
             transaction_id = document["transaction_id"]
