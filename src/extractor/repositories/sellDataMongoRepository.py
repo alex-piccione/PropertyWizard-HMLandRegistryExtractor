@@ -1,5 +1,5 @@
 from pymongo import MongoClient
-from datetime import datetime
+from datetime import datetime, date
 
 from extractor.repositories import logger, \
     COLLECTION_HM_PRICE_DATA_RAW_EXTRACTION
@@ -26,6 +26,8 @@ class SellDataMongoRepository:
         # generate id
         _id = random.randint(1, sys.maxsize)
         create_date = datetime.utcnow()
+
+        self._change_date_to_datetime(item)
 
         document = {
             "_id": _id,
@@ -106,3 +108,8 @@ class SellDataMongoRepository:
         except Exception as error:
             raise ValueError(f"Fail to parse database document. Document: {document}.", error)
 
+
+    def _change_date_to_datetime(self, item):
+
+        if type(item.date) is date:
+            item.date = datetime.combine(item.date, datetime.min.time())

@@ -34,7 +34,7 @@ class SellDataMongoRepositoryTest(unittest.TestCase):
             # execute
             self.repository.save(sell_data)
 
-            saved_document: RawSellData = self._get_document(sell_data.transaction_id)
+            saved_document = self._get_document(sell_data.transaction_id)
 
             assert saved_document
 
@@ -167,6 +167,14 @@ class SellDataMongoRepositoryTest(unittest.TestCase):
             if _id:
                 self._delete_document(_id)
 
+    def test_change_date_to_datetime(self):
+
+        # todo
+
+        # self.repository._change_date_to_datetime(item)
+
+        pass
+
 
     # private utility
 
@@ -184,8 +192,8 @@ class SellDataMongoRepositoryTest(unittest.TestCase):
         return self.database[COLLECTION_HM_PRICE_DATA_RAW_EXTRACTION]
 
     def _save_item(self, sell_data):
-        id = self.repository.save(sell_data)
-        return id
+        _id = self.repository.save(sell_data)
+        return _id
 
     def _create_RawSellData(self) -> RawSellData:
         transaction_id = uuid.uuid4()  # random

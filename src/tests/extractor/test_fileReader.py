@@ -1,9 +1,9 @@
 import unittest
 import os
-from datetime import date
+from datetime import datetime
 
-from src.extractor.fileReader import FileReader
-from src.extractor.entities.rawSellData import RawSellData
+from extractor.fileReader import FileReader
+from extractor.entities.rawSellData import RawSellData
 
 DATA_FOLDER = "../data"
 TEST_FILE = "example pp 15 rows.csv"
@@ -19,10 +19,11 @@ class fileReaderTest(unittest.TestCase):
         reader = FileReader()
         reader.read(file_, True) # has headers
 
-        data = reader.result
-
+        assert not reader.errors
+        data = reader.records
         assert data is not None
         self.assertEqual(15, len(data), "size of result (records number)")
+        record = data[0]
         assert isinstance(data[0], RawSellData)
 
 
@@ -34,8 +35,8 @@ class fileReaderTest(unittest.TestCase):
         reader = FileReader()
         reader.read(file_)
 
-        data = reader.result
-
+        assert not reader.errors
+        data = reader.records
         assert data is not None
         self.assertEqual(15, len(data), "size of result (records number)")
 
@@ -48,9 +49,9 @@ class fileReaderTest(unittest.TestCase):
         reader = FileReader()
         reader.read(file_)
 
-        data = reader.result
+        data = reader.records
 
-        expected_date = date(2002, 5, 31)
+        expected_date = datetime(2002, 5, 31)
 
         record = data[0]
         self.assertEqual("{4E95D757-1CA7-EDA1-E050-A8C0630539E2}", record.transaction_id, "transaction_id")

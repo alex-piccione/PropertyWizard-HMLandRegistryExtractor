@@ -1,6 +1,6 @@
 import codecs
 import csv
-from datetime import date, datetime
+from datetime import datetime
 
 from extractor.logger import Logger
 from extractor.entities.rawSellData import RawSellData
