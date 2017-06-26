@@ -3,6 +3,7 @@ import os
 from datetime import date
 
 from src.extractor.fileReader import FileReader
+from src.extractor.entities.rawSellData import RawSellData
 
 DATA_FOLDER = "../data"
 TEST_FILE = "example pp 15 rows.csv"
@@ -22,7 +23,8 @@ class fileReaderTest(unittest.TestCase):
 
         assert data is not None
         self.assertEqual(15, len(data), "size of result (records number)")
-        assert len(data) == 15
+        assert isinstance(data[0], RawSellData)
+
 
     def test_read_when_file_has_not_headers(self):
 
@@ -36,7 +38,7 @@ class fileReaderTest(unittest.TestCase):
 
         assert data is not None
         self.assertEqual(15, len(data), "size of result (records number)")
-        assert len(data) == 15
+
 
     def test_read__should__return_the_expected_RawPriceData_object(self):
 

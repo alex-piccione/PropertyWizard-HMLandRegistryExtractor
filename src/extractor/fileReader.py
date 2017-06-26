@@ -1,6 +1,6 @@
 import codecs
 import csv
-from datetime import date
+from datetime import date, datetime
 
 from extractor.logger import Logger
 from extractor.entities.rawSellData import RawSellData
@@ -67,11 +67,13 @@ class FileReader():
         x = line[14]
         action = line[15]  # Add, Change, Delete
 
-        return RawSellData(guid, price, date_, postcode, property_type, yn, hold_type,
+        item = RawSellData(guid, price, date_, postcode, property_type, yn, hold_type,
                            paon, saon, street, locality, city, district, county, x, action)
+
+        return item
 
     def _parse_date(self, text):
         try:
-            return date(int(text[0:4]), int(text[5:7]), int(text[8:10]))
+            return datetime(int(text[0:4]), int(text[5:7]), int(text[8:10]))
         except:
             raise Exception(f'Fail to parse date. Text: "{text}".')

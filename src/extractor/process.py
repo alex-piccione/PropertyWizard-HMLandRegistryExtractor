@@ -17,7 +17,7 @@ class Process():
 
         # load file
         try:
-            records = self.file_reader.read(csv_file, False)
+            records = self.file_reader.read(csv_file, has_headers=False)
             logger.info(f'Reader read {len(records)} records.')
         except Exception as error:
             return logger.fatal(f"Fail to parse CSV file. {error}")
