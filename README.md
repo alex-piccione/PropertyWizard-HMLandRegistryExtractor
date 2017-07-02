@@ -7,6 +7,10 @@ Python process hosted in a Django web site.
 
 https://www.gov.uk/government/collections/price-paid-data
 
+Single file: https://www.gov.uk/government/statistical-data-sets/price-paid-data-downloads#single-file
+CSV: http://prod.publicdata.landregistry.gov.uk.s3-website-eu-west-1.amazonaws.com/pp-complete.csv
+
+Current month CSV: http://prod.publicdata.landregistry.gov.uk.s3-website-eu-west-1.amazonaws.com/pp-monthly-update-new-version.csv
 
 # HM Land Registry
 

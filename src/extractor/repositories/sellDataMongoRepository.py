@@ -1,6 +1,7 @@
 from pymongo import MongoClient
 from datetime import datetime, date
 import uuid
+from bson import CodecOptions, binary
 
 from extractor.repositories import logger, \
     COLLECTION_HM_PRICE_DATA_RAW_EXTRACTION
@@ -17,6 +18,9 @@ class SellDataMongoRepository:
 
         self.client = MongoClient(connection_string)
         self.db = self.client[database_name]
+
+        codec_options = CodecOptions(uuid_representation = binary.STANDARD)
+        self.collection = self.db.get_collection(COLLECTION_HM_PRICE_DATA_RAW_EXTRACTION, codec_options)
 
 
     def save(self, item: RawSellData) -> int:
@@ -50,7 +54,7 @@ class SellDataMongoRepository:
             "action": item.action
         }
 
-        result = self.db[COLLECTION_HM_PRICE_DATA_RAW_EXTRACTION].insert_one(document)
+        result = self.collection.insert_one(document)
 
         if result.acknowledged:
             return result.inserted_id
@@ -61,7 +65,7 @@ class SellDataMongoRepository:
     def list(self, start_date):
 
         filter_ = {"date": {"$gte": start_date}}
-        result = self.db[COLLECTION_HM_PRICE_DATA_RAW_EXTRACTION].find(filter_)
+        result = self.collection.find(filter_)
         items = []
         for document in result:
             item = self._parse_document(document)

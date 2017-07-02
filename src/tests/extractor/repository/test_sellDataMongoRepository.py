@@ -189,7 +189,9 @@ class SellDataMongoRepositoryTest(unittest.TestCase):
         self._get_collection().delete_one({"_id": _id})
 
     def _get_collection(self):
-        return self.database[COLLECTION_HM_PRICE_DATA_RAW_EXTRACTION]
+        from bson import CodecOptions, binary
+        codec_options = CodecOptions(uuid_representation=binary.STANDARD)
+        return self.database.get_collection(COLLECTION_HM_PRICE_DATA_RAW_EXTRACTION, codec_options)
 
     def _save_item(self, sell_data):
         _id = self.repository.save(sell_data)
