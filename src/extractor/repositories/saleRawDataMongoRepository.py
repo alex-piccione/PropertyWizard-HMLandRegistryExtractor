@@ -1,26 +1,15 @@
-from pymongo import MongoClient
 from datetime import datetime, date
 import uuid
-from bson import CodecOptions, binary
 
-from extractor.repositories import logger, \
-    COLLECTION_HM_PRICE_DATA_RAW_EXTRACTION
+from extractor.repositories import logger, COLLECTION_HM_PRICE_DATA_RAW_EXTRACTION
+from extractor.repositories.mongoRepositoryBase import MongoRepositoryBase
 from extractor.entities.saleRawData import SaleRawData
 
 
-class SaleRawDataMongoRepository:
+class SaleRawDataMongoRepository(MongoRepositoryBase):
 
-    def __init__(self, connection_string, database_name):
-        logger.info('Initialize. Database: "{0}", HM_PRICE_DATA_RAW_EXTRACTION: "{1}".'.format(
-            database_name, COLLECTION_HM_PRICE_DATA_RAW_EXTRACTION))
-
-        # http://api.mongodb.com/python/current/tutorial.html?_ga=1.114535310.822912736.1490913716
-
-        self.client = MongoClient(connection_string)
-        self.db = self.client[database_name]
-
-        codec_options = CodecOptions(uuid_representation = binary.STANDARD)
-        self.collection = self.db.get_collection(COLLECTION_HM_PRICE_DATA_RAW_EXTRACTION, codec_options)
+    def __init__(self, connection_string, database):
+        super().__init__(connection_string, database, COLLECTION_HM_PRICE_DATA_RAW_EXTRACTION)
 
 
     def save(self, item: SaleRawData) -> int:
@@ -59,6 +48,7 @@ class SaleRawDataMongoRepository:
         if result.acknowledged:
             return result.inserted_id
         else:
+            logger.fatal(f'{self.__class__} .save(...) return "Not acknowledged". Transaction Id: "{item.transaction_id}".')
             raise Exception("Not acknowledged")
 
 
@@ -107,6 +97,7 @@ class SaleRawDataMongoRepository:
             return data
 
         except Exception as error:
+            logger.fatal(f"Fail to parse database document. Document: {document}. Error: {error}")
             raise ValueError(f"Fail to parse database document. Document: {document}.", error)
 
 
