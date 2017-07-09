@@ -3,7 +3,7 @@ import sys
 from extractor.logger import Logger
 from extractor.process import Process
 from extractor.fileReader import FileReader
-from extractor.repositories.saleRawDataMongoRepository import SellDataMongoRepository
+from extractor.repositories.saleRawDataMongoRepository import SaleRawDataMongoRepository
 from extractor import config
 
 logger = Logger.create(__name__)
@@ -14,9 +14,9 @@ def run(csv_file: str):
     file_reader = FileReader()
     connection_string = config.mongo_connection_string
     database_name = config.mongo_database_name
-    sell_data_repository = SellDataMongoRepository(connection_string, database_name)
+    sale_data_repository = SaleRawDataMongoRepository(connection_string, database_name)
 
-    process = Process(file_reader, sell_data_repository)
+    process = Process(file_reader, sale_data_repository)
 
     try:
         process.run(csv_file)

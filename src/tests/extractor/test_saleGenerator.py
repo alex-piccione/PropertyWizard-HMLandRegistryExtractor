@@ -4,9 +4,8 @@ from extractor.saleDataProcessor import SaleDataProcessor
 from extractor.entities.saleRawData import SaleRawData
 from extractor.entities.sale import Sale
 
-class sellDataProcessorTest(unittest.TestCase):
 
-
+class SaleDataProcessorTest(unittest.TestCase):
     def _get_complete_address(self):
 
         test_cases = []
@@ -35,14 +34,12 @@ class sellDataProcessorTest(unittest.TestCase):
         processor = SaleDataProcessor()
 
         for case in test_cases:
-
-            raw_data = self._create_raw_sell_data(case["paon"], case["saon"], case["street"], case["locality"])
+            raw_data = self._create_sale_raw_data(case["paon"], case["saon"], case["street"], case["locality"])
 
             # execute
             address = processor._get_complete_address(raw_data)
 
             self.assertEqual(address, case["expected_address"], case["expected_address"])
-
 
     def _get_partial_post_code(self):
 
@@ -62,10 +59,9 @@ class sellDataProcessorTest(unittest.TestCase):
             result = processor._get_partial_post_code(case["input"])
             self.assertEqual(result, case["expected_result"], case["input"])
 
+    def _create_sale_raw_data(self, paon, saon, street, locality):
 
-    def _create_raw_sell_data(self, paon, saon, street, locality):
-
-        data = SaleRawData(None, None, None, None, None, None,None,
+        data = SaleRawData(None, None, None, None, None, None, None,
                            paon, saon, street, locality,
                            None, None, None, None, None)
         return data

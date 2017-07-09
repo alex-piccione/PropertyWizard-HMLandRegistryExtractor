@@ -15,13 +15,13 @@ class FileReader():
         self.records = None
 
     def read(self, file_, has_headers = False):
-        '''
+        """
         Parse the CSV file.
 
         :param file_: CSV file
         :param has_headers: fisrt row contains fields names?
-        :return: an array of RawSellData
-        '''
+        :return: an array of SaleRawData
+        """
 
 
         logger.info(f'Read file "{file_}"')
@@ -37,8 +37,8 @@ class FileReader():
 
             for line in reader:
                 try:
-                    sell_data = self._parse_line(line)
-                    self.records.append(sell_data)
+                    sale_data = self._parse_line(line)
+                    self.records.append(sale_data)
                 except Exception as exc:
                     self.errors.append(str(exc))
 

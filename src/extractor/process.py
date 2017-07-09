@@ -1,15 +1,18 @@
 from extractor.logger import Logger
 from extractor.fileReader import FileReader
-from extractor.repositories.saleRawDataMongoRepository import SellDataMongoRepository
+from extractor.repositories.saleRawDataMongoRepository import SaleRawDataMongoRepository
+from extractor.saleDataProcessor import SaleDataProcessor
+
 
 logger = Logger.create(__name__)
 
 class Process():
 
-    def __init__(self, file_reader: FileReader, raw_sell_data_repository: SellDataMongoRepository):
+    def __init__(self, file_reader: FileReader, sale_raw_data_repository: SaleRawDataMongoRepository, sale_data_processor: SaleDataProcessor):
 
         self.file_reader = file_reader
-        self.raw_data_repository = raw_sell_data_repository
+        self.raw_data_repository = sale_raw_data_repository
+        self.data_processor = sale_data_processor
 
     def run(self, csv_file: str):
 
@@ -22,14 +25,19 @@ class Process():
         except Exception as error:
             return logger.fatal(f"Fail to parse CSV file. {error}")
 
-        # save data
+        # save raw data
+        new_records = []
         try:
             for record in records:
                 # if record.action == "a":
-                self.raw_data_repository.save(record)
+                id_ = self.raw_data_repository.save(record)
+                new_records.append(id_)
             logger.info(f'All records saved.')
         except Exception as error:
             return logger.fatal(f"Fail to save records. {error}")
+
+        # elaborate the raw data
+        #self.data_processor.process_new_records(new_records)
 
         logger.info(f'Process end.')
 

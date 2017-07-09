@@ -7,7 +7,8 @@ class SaleDataProcessor():
     def __init__(self):
         pass
 
-    def process(self, raw_sales: list): #-> list
+
+    def _process_sales(self, raw_sales: list): #-> list
 
         sales = []
 

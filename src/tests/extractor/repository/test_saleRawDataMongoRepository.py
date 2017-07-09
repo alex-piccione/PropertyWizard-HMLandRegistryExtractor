@@ -28,13 +28,13 @@ class SaleRawDataMongoRepositoryTest(unittest.TestCase):
 
     def test_save__should__populate_the_right_fields(self):
 
-        sell_data = self._create_RawSellData()
+        sale_data = self._create_SaleRawData()
 
         try:
             # execute
-            self.repository.save(sell_data)
+            self.repository.save(sale_data)
 
-            saved_document = self._get_document(sell_data.transaction_id)
+            saved_document = self._get_document(sale_data.transaction_id)
 
             assert saved_document
 
@@ -55,35 +55,35 @@ class SaleRawDataMongoRepositoryTest(unittest.TestCase):
             assert "x" in saved_document
             assert "action" in saved_document
 
-            self.assertEqual(saved_document["transaction_id"], sell_data.transaction_id, "transaction_id")
-            self.assertEqual(saved_document["price"], sell_data.price, "price")
-            self.assertEqualDate(saved_document["date"], sell_data.date, "date")
-            self.assertEqual(saved_document["post_code"], sell_data.post_code, "post_code")
-            self.assertEqual(saved_document["property_type"], sell_data.property_type, "property_type")
-            self.assertEqual(saved_document["yn"], sell_data.yn, "yn")
-            self.assertEqual(saved_document["holding_type"], sell_data.holding_type, "holding_type")
-            self.assertEqual(saved_document["paon"], sell_data.paon, "paon")
-            self.assertEqual(saved_document["saon"], sell_data.saon, "saon")
-            self.assertEqual(saved_document["street"], sell_data.street, "street")
-            self.assertEqual(saved_document["locality"], sell_data.locality, "locality")
-            self.assertEqual(saved_document["city"], sell_data.city, "city")
-            self.assertEqual(saved_document["district"], sell_data.district, "district")
-            self.assertEqual(saved_document["county"], sell_data.county, "county")
-            self.assertEqual(saved_document["x"], sell_data.x, "x")
-            self.assertEqual(saved_document["action"], sell_data.action, "action")
+            self.assertEqual(saved_document["transaction_id"], sale_data.transaction_id, "transaction_id")
+            self.assertEqual(saved_document["price"], sale_data.price, "price")
+            self.assertEqualDate(saved_document["date"], sale_data.date, "date")
+            self.assertEqual(saved_document["post_code"], sale_data.post_code, "post_code")
+            self.assertEqual(saved_document["property_type"], sale_data.property_type, "property_type")
+            self.assertEqual(saved_document["yn"], sale_data.yn, "yn")
+            self.assertEqual(saved_document["holding_type"], sale_data.holding_type, "holding_type")
+            self.assertEqual(saved_document["paon"], sale_data.paon, "paon")
+            self.assertEqual(saved_document["saon"], sale_data.saon, "saon")
+            self.assertEqual(saved_document["street"], sale_data.street, "street")
+            self.assertEqual(saved_document["locality"], sale_data.locality, "locality")
+            self.assertEqual(saved_document["city"], sale_data.city, "city")
+            self.assertEqual(saved_document["district"], sale_data.district, "district")
+            self.assertEqual(saved_document["county"], sale_data.county, "county")
+            self.assertEqual(saved_document["x"], sale_data.x, "x")
+            self.assertEqual(saved_document["action"], sale_data.action, "action")
 
         finally:
-            self._delete_record(sell_data.transaction_id)  # clean up
+            self._delete_record(sale_data.transaction_id)  # clean up
 
     def test_save__should__set_basic_fields(self):
 
-        sell_data = self._create_RawSellData()
+        sale_data = self._create_SaleRawData()
 
         try:
             # execute
-            self.repository.save(sell_data)
+            self.repository.save(sale_data)
 
-            saved_document: RawSellData = self._get_document(sell_data.transaction_id)
+            saved_document: SaleRawData = self._get_document(sale_data.transaction_id)
 
             assert saved_document
 
@@ -94,7 +94,7 @@ class SaleRawDataMongoRepositoryTest(unittest.TestCase):
             # todo: check it is not before 5 seconds ago
 
         finally:
-            self._delete_record(sell_data.transaction_id)  # clean up
+            self._delete_record(sale_data.transaction_id)  # clean up
 
 
     def test_list(self):
@@ -102,10 +102,10 @@ class SaleRawDataMongoRepositoryTest(unittest.TestCase):
         start_date = datetime.utcnow() - timedelta(days=1)
         start_date = start_date.replace(hour=0, minute=0, second=0, microsecond=0)
 
-        old_item = self._create_RawSellData()
+        old_item = self._create_SaleRawData()
         old_item.date = start_date - timedelta(days=1)
 
-        new_item = self._create_RawSellData()
+        new_item = self._create_SaleRawData()
         new_item.date = start_date
 
         try:
@@ -134,7 +134,7 @@ class SaleRawDataMongoRepositoryTest(unittest.TestCase):
 
         try:
 
-            item = self._create_RawSellData()
+            item = self._create_SaleRawData()
             _id = self._save_item(item)
             document = self._get_document(item.transaction_id)
 
@@ -193,11 +193,11 @@ class SaleRawDataMongoRepositoryTest(unittest.TestCase):
         codec_options = CodecOptions(uuid_representation=binary.STANDARD)
         return self.database.get_collection(COLLECTION_HM_PRICE_DATA_RAW_EXTRACTION, codec_options)
 
-    def _save_item(self, sell_data):
-        _id = self.repository.save(sell_data)
+    def _save_item(self, sale_data):
+        _id = self.repository.save(sale_data)
         return _id
 
-    def _create_RawSellData(self) -> SaleRawData:
+    def _create_SaleRawData(self) -> SaleRawData:
         transaction_id = uuid.uuid4()  # random
         price = 1.23
         date_ = date(2002, 5, 31)
