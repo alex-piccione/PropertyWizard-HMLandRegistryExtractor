@@ -3,7 +3,7 @@ import sys
 from extractor.logger import Logger
 from extractor.process import Process
 from extractor.fileReader import FileReader
-from extractor.repositories.sellDataMongoRepository import SellDataMongoRepository
+from extractor.repositories.saleRawDataMongoRepository import SellDataMongoRepository
 from extractor import config
 
 logger = Logger.create(__name__)

@@ -3,25 +3,25 @@ from datetime import date, datetime, timedelta
 import uuid
 from pymongo import MongoClient
 
-from src.extractor.repositories.sellDataMongoRepository import SellDataMongoRepository
+from src.extractor.repositories.saleRawDataMongoRepository import SaleRawDataMongoRepository
 from src.extractor.repositories import COLLECTION_HM_PRICE_DATA_RAW_EXTRACTION
-from extractor.entities.rawSellData import RawSellData
+from extractor.entities.saleRawData import SaleRawData
 
 from tests.extractor import config  # dev config
 
-class SellDataMongoRepositoryTest(unittest.TestCase):
+class SaleRawDataMongoRepositoryTest(unittest.TestCase):
 
     def setUp(self):
         connection_string = config.mongo_connection_string
         database_name = config.mongo_database_name
-        self.repository = SellDataMongoRepository(connection_string, database_name)
+        self.repository = SaleRawDataMongoRepository(connection_string, database_name)
         self.database = MongoClient(connection_string)[database_name]
 
 
     def test_init__should__create_client_and_db(self):
         connection_string = "connection_string"
         database_name = "database_name"
-        repository = SellDataMongoRepository(connection_string, database_name)
+        repository = SaleRawDataMongoRepository(connection_string, database_name)
         assert repository  # is not None
         assert repository.client
         assert repository.db
@@ -119,7 +119,7 @@ class SellDataMongoRepositoryTest(unittest.TestCase):
             assert isinstance(items, list)
 
             assert len(items) > 0
-            assert isinstance(items[0], RawSellData)
+            assert isinstance(items[0], SaleRawData)
 
             assert len(list(filter(lambda i: i.id == old_id, items))) == 0
             assert len(list(filter(lambda i: i.id == new_id, items))) == 1
@@ -141,7 +141,7 @@ class SellDataMongoRepositoryTest(unittest.TestCase):
             # execute
             item = self.repository._parse_document(document)
 
-            assert isinstance(item, RawSellData)
+            assert isinstance(item, SaleRawData)
 
             self.assertEqual(item.transaction_id, document["transaction_id"])
             self.assertEqual(item.price, document["price"])
@@ -197,7 +197,7 @@ class SellDataMongoRepositoryTest(unittest.TestCase):
         _id = self.repository.save(sell_data)
         return _id
 
-    def _create_RawSellData(self) -> RawSellData:
+    def _create_RawSellData(self) -> SaleRawData:
         transaction_id = uuid.uuid4()  # random
         price = 1.23
         date_ = date(2002, 5, 31)
@@ -214,7 +214,7 @@ class SellDataMongoRepositoryTest(unittest.TestCase):
         county = "county"
         x = "x"
         action = "action"
-        item = RawSellData(transaction_id, price, date_, post_code, property_type, yn, holding_type,
+        item = SaleRawData(transaction_id, price, date_, post_code, property_type, yn, holding_type,
                            paon, saon, street, locality, city, district, county, x, action)
 
         return item

@@ -5,10 +5,10 @@ from bson import CodecOptions, binary
 
 from extractor.repositories import logger, \
     COLLECTION_HM_PRICE_DATA_RAW_EXTRACTION
-from extractor.entities.rawSellData import RawSellData
+from extractor.entities.saleRawData import SaleRawData
 
 
-class SellDataMongoRepository:
+class SaleRawDataMongoRepository:
 
     def __init__(self, connection_string, database_name):
         logger.info('Initialize. Database: "{0}", HM_PRICE_DATA_RAW_EXTRACTION: "{1}".'.format(
@@ -23,7 +23,7 @@ class SellDataMongoRepository:
         self.collection = self.db.get_collection(COLLECTION_HM_PRICE_DATA_RAW_EXTRACTION, codec_options)
 
 
-    def save(self, item: RawSellData) -> int:
+    def save(self, item: SaleRawData) -> int:
 
         _id = uuid.uuid4()  # random
         create_date = datetime.utcnow()
@@ -73,7 +73,7 @@ class SellDataMongoRepository:
         return items
 
 
-    def _parse_document(self, document) -> RawSellData:
+    def _parse_document(self, document) -> SaleRawData:
 
         try:
             _id = document["_id"]
@@ -96,7 +96,7 @@ class SellDataMongoRepository:
             x = document["x"]
             action = document["action"]
 
-            data = RawSellData(transaction_id, price, date_, post_code,
+            data = SaleRawData(transaction_id, price, date_, post_code,
                                property_type, yn, holding_type,
                                paon, saon, street, locality, city, district, county,
                                x, action)

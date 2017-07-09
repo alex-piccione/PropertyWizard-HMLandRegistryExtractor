@@ -1,7 +1,7 @@
 from uuid import UUID
 from datetime import datetime
 
-class RawSellData():
+class SaleRawData():
 
     def __init__(self, transaction_id: UUID, price: float, date: datetime, post_code: str, property_type: str, yn: str, holding_type: str,
                  paon: str, saon: str, street: str, locality: str, city: str, district: str, county: str, x: str, action: str

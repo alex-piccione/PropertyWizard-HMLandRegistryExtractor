@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 
 from extractor.fileReader import FileReader
-from extractor.entities.rawSellData import RawSellData
+from extractor.entities.saleRawData import SaleRawData
 
 DATA_FOLDER = "../data"
 TEST_FILE = "example pp 15 rows.csv"
@@ -24,7 +24,7 @@ class fileReaderTest(unittest.TestCase):
         assert data is not None
         self.assertEqual(15, len(data), "size of result (records number)")
         record = data[0]
-        assert isinstance(data[0], RawSellData)
+        assert isinstance(data[0], SaleRawData)
 
 
     def test_read_when_file_has_not_headers(self):

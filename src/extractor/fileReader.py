@@ -3,7 +3,7 @@ import csv
 from datetime import datetime
 
 from extractor.logger import Logger
-from extractor.entities.rawSellData import RawSellData
+from extractor.entities.saleRawData import SaleRawData
 
 logger = Logger.create(__name__)
 
@@ -67,7 +67,7 @@ class FileReader():
         x = line[14]
         action = line[15]  # Add, Change, Delete
 
-        item = RawSellData(guid, price, date_, postcode, property_type, yn, hold_type,
+        item = SaleRawData(guid, price, date_, postcode, property_type, yn, hold_type,
                            paon, saon, street, locality, city, district, county, x, action)
 
         return item

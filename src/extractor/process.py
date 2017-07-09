@@ -1,6 +1,6 @@
 from extractor.logger import Logger
 from extractor.fileReader import FileReader
-from extractor.repositories.sellDataMongoRepository import SellDataMongoRepository
+from extractor.repositories.saleRawDataMongoRepository import SellDataMongoRepository
 
 logger = Logger.create(__name__)
 
