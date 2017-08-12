@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 from bson import CodecOptions, binary
+from datetime import datetime, date
 
 from extractor.repositories import logger
 
@@ -15,3 +16,9 @@ class MongoRepositoryBase:
 
         codec_options = CodecOptions(uuid_representation = binary.STANDARD)
         self.collection = self.db.get_collection(collection, codec_options)
+
+    # apparently MongoDB cannot store datetime without the time part
+    def change_date_to_datetime(self, date_value):
+
+        if type(date_value) is date:
+            return datetime.combine(date_value, datetime.min.time())

@@ -17,7 +17,7 @@ class SaleRawDataMongoRepository(MongoRepositoryBase):
         _id = uuid.uuid4()  # random
         create_date = datetime.utcnow()
 
-        self._change_date_to_datetime(item)
+        self._change_date_to_datetime(item)  # apparently MongoDB cannot store datetime without the time part
 
         document = {
             "_id": _id,
