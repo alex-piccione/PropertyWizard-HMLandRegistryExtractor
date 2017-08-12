@@ -1,33 +1,16 @@
 # Property Wizard - HM Land Registry Extractor
 
-Data extractor of the HM Land Registry public data.
-Python process hosted in a Django web site.
+This program is an extractor of the HM Land Registry public data.
+It is a Python script that run on scheduled times.
 
-# Source
+# HM Land Registry
 
-https://www.gov.uk/government/collections/price-paid-data
+The source of data is the "Price Paid data" taken from here: https://www.gov.uk/government/collections/price-paid-data
 
 Single file: https://www.gov.uk/government/statistical-data-sets/price-paid-data-downloads#single-file
 CSV: http://prod.publicdata.landregistry.gov.uk.s3-website-eu-west-1.amazonaws.com/pp-complete.csv
 
 Current month CSV: http://prod.publicdata.landregistry.gov.uk.s3-website-eu-west-1.amazonaws.com/pp-monthly-update-new-version.csv
-
-# HM Land Registry
-
-## Disclaimer
-When using or publishing our Price Paid Data
-If you use or publish our price paid data, you must add the following attribution statement:
-
-```
-Data produced by HM Land Registry © Crown copyright 2017.
-Price Paid Data is released under Open Government Licence (OGL). Under the OGL, HM Land Registry permits you to use the Price Paid Data for commercial or non-commercial purposes. However, OGL does not cover the use of third party rights, which we are not authorised to license.
-```
-
-Price Paid Data contains address data processed against Ordnance Survey’s AddressBase Premium product, which incorporates Royal Mail’s PAF® database (Address Data). Royal Mail and Ordnance Survey, permits your use of Address Data in the Price Paid Data:
-
-for personal and/or non-commercial use
-to display for the purpose of providing residential property price information services
-If you want to use the Address Data in any other way, you must contact Royal Mail. Email address.management@royalmail.com.
 
 ## Address data
 
@@ -42,50 +25,50 @@ The following fields comprise the address data included in Price Paid Data:
 - District
 - County
 
-## Real data
+### Real case
 
-First record in 2017/05 CSV data:
+First record in 2017/05 CSV data file:
 
 <pre>
-Id:             {4E95D757-1CA7-EDA1-E050-A8C0630539E2}
-Price:          970000	
-Date:           2002-05-31 00:00	
-Post code:      SW3 2BZ	
-Type:           F	
-??2:            N	
-Holding type:   L	
-PAON:           46	
-SAON:           FLAT 4	
-Street:         EGERTON GARDENS
+Id:                     {4E95D757-1CA7-EDA1-E050-A8C0630539E2}
+Price:                  970000	
+Date:                   2002-05-31 00:00	
+Post code:              SW3 2BZ	
+Type:                   F	
+New house:              N	
+Holding type:           L	
+PAON:                   46	
+SAON:                   FLAT 4	
+Street:                 EGERTON GARDENS
 Locality:        
-City:           LONDON	
-District:       KENSINGTON AND CHELSEA	
-County:         GREATER LONDON	
-??7:            A	
-Action:         A
+City:                   LONDON	
+District:               KENSINGTON AND CHELSEA	
+County:                 GREATER LONDON	
+Transaction category    A	
+Action:                 A
 </pre>
 
 Description of the fields:
 <pre>
-- Id:           It is a GUID wrapped in curly brackets. It is duplicated also for completely different properties. What is it related to?
-- Price:        Sell price in GBP
-- Date:         The date of the sell
+- Id:                   It is a GUID wrapped in curly brackets. It is duplicated also for completely different properties. What is it related to?
+- Price:                Sell price in GBP
+- Date:                 The date of the sale
    - Year
    - Month
-- Post code:    can be empty. 
+- Post code:            can be empty. 
    - Partial post code. Obtained form the 4 initial characters and removing the space return the partial post code.
-- Type:         D/F/O/S/T  (Detached, Semi-detached, Terraced, Flat, Other)
-- ??2:          Y/N, (Yes/No)  
-- Holding type: L/F (Leasehold, Freehold)
-- PAON:         Primary addressable object name. Typically the house number or name
-- SAON:         Secondary Addressable Object Name. If there is a sub-building, for example the building is divided into flats, there will be a SAON.
+- Type:                 D/F/O/S/T  (Detached, Semi-detached, Terraced, Flat, Other)
+- new house:            Y/N, Is a new house  
+- Holding type:         L/F (Leasehold/Freehold)
+- PAON:                 Primary addressable object name. Typically the house number or name
+- SAON:                 Secondary Addressable Object Name. If there is a sub-building, for example the building is divided into flats, there will be a SAON.
 - Street:
 - Locality:
-- City:         Town or City
+- City:                 Town or City
 - District:
 - County:
-- ??7:          A/B
-- action:       A/C/D  (record status notation? Add, Change, Delete ?)
+- TRansaction category: A/B (Standard/Additional)
+- action:               A/C/D (record status notation Add/Change/Delete)
 </pre>
   
 Some prices seems wrong. For example 1£ or 125 million of pounds.  
