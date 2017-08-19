@@ -1,7 +1,17 @@
-# Property Wizard - HM Land Registry Extractor
+# HM Land Registry Extractor
+__part of: Property Wizard__  
+__last update: 16 August 2017__
 
-This program is an extractor of the HM Land Registry public data.
+This program is an extractor of the HM Land Registry public data.  
+The extracted data are stored for a successive use by the Property Wizard API.  
 It is a Python script that run on scheduled times.
+
+
+# How it works
+
+Thew process start with a call to process.py 
+(to be written)
+
 
 # HM Land Registry
 
@@ -73,6 +83,7 @@ Description of the fields:
   
 Some prices seems wrong. For example 1£ or 125 million of pounds.  
 The second case could be an error inserting the value with a wrong decimal character resulting 100 times more, so it could be 1million, and it is possible compared to other apartment in the same building.
+
 
 # Heroku
 
