@@ -7,6 +7,10 @@ class SaleDataProcessor():
     def __init__(self):
         pass
 
+    def process_new_records(self, record_ids:list):
+
+        pass
+
 
     def _process_sales(self, raw_sales: list): #-> list
 

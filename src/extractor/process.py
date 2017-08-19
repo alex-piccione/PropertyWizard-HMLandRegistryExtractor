@@ -36,8 +36,16 @@ class Process():
         except Exception as error:
             return logger.fatal(f"Fail to save records. {error}")
 
-        # elaborate the raw data
-        #self.data_processor.process_new_records(new_records)
+        # process the raw data
+        try:
+            result = self.data_processor.process_new_records(new_records)
+            if not result.errors:
+                logger.info(f'All records successfully processed.')
+            else:
+                logger.error(result.errors)
+        except Exception as error:
+            return logger.fatal(f"Fail to process records. {error}")
+
 
         logger.info(f'Process end.')
 

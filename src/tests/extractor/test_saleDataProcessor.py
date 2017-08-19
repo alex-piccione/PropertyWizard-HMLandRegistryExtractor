@@ -2,10 +2,10 @@ import unittest
 
 from extractor.saleDataProcessor import SaleDataProcessor
 from extractor.entities.saleRawData import SaleRawData
-from extractor.entities.sale import Sale
 
 
 class SaleDataProcessorTest(unittest.TestCase):
+
     def _get_complete_address(self):
 
         test_cases = []

@@ -23,7 +23,7 @@ class fileReaderTest(unittest.TestCase):
         data = reader.records
         assert data is not None
         self.assertEqual(15, len(data), "size of result (records number)")
-        record = data[0]
+
         assert isinstance(data[0], SaleRawData)
 
 
