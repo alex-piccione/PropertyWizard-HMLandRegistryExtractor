@@ -28,7 +28,7 @@ class SaleRawDataMongoRepository(MongoRepositoryBase):
             "date": item.date,
             "post_code": item.post_code,
             "property_type": item.property_type,
-            "yn": item.yn,
+            "new_build": item.new_build,
             "holding_type": item.holding_type,
 
             "paon": item.paon,
@@ -39,7 +39,7 @@ class SaleRawDataMongoRepository(MongoRepositoryBase):
             "district": item.district,
             "county": item.county,
 
-            "x": item.x,
+            "transaction_category": item.transaction_category,
             "action": item.action
         }
 
@@ -52,9 +52,20 @@ class SaleRawDataMongoRepository(MongoRepositoryBase):
             raise Exception("Not acknowledged")
 
 
-    def list(self, start_date):
+    def list(self, start_date: datetime):
 
         filter_ = {"date": {"$gte": start_date}}
+        result = self.collection.find(filter_)
+        items = []
+        for document in result:
+            item = self._parse_document(document)
+            items.append(item)
+        return items
+
+
+    def list_by_id(self, ids: list):
+
+        filter_ = {"_id": {"$in": ids}}
         result = self.collection.find(filter_)
         items = []
         for document in result:
@@ -74,7 +85,7 @@ class SaleRawDataMongoRepository(MongoRepositoryBase):
             date_ = document["date"]
             post_code = document["post_code"]
             property_type = document["property_type"]
-            yn = document["yn"]
+            new_build = document["new_build"]
             holding_type = document["holding_type"]
             paon = document["paon"]
             saon = document["saon"]
@@ -83,13 +94,13 @@ class SaleRawDataMongoRepository(MongoRepositoryBase):
             city = document["city"]
             district = document["district"]
             county = document["county"]
-            x = document["x"]
+            transaction_category = document["transaction_category"]
             action = document["action"]
 
             data = SaleRawData(transaction_id, price, date_, post_code,
-                               property_type, yn, holding_type,
+                               property_type, new_build, holding_type,
                                paon, saon, street, locality, city, district, county,
-                               x, action)
+                               transaction_category, action)
 
             data.id = _id
             data.create_date = create_date

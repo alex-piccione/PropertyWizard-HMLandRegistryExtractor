@@ -1,6 +1,7 @@
 import codecs
 import csv
 from datetime import datetime
+from typing import List
 
 from extractor.logger import Logger
 from extractor.entities.saleRawData import SaleRawData
@@ -12,7 +13,7 @@ class FileReader():
     def __init__(self):
 
         self.errors = None
-        self.records = None
+        self.records: List[SaleRawData] = None
 
     def read(self, file_, has_headers = False):
         """
@@ -22,7 +23,6 @@ class FileReader():
         :param has_headers: fisrt row contains fields names?
         :return: an array of SaleRawData
         """
-
 
         logger.info(f'Read file "{file_}"')
 

@@ -1,10 +1,40 @@
-import unittest
-
+from unittest import TestCase
+from unittest.mock import Mock
 from extractor.saleDataProcessor import SaleDataProcessor
 from extractor.entities.saleRawData import SaleRawData
+from tests import helper
+import uuid
+
+class SaleDataProcessorTest(TestCase):
 
 
-class SaleDataProcessorTest(unittest.TestCase):
+    def test_process_new_records(self):
+
+        raw_sales = [helper.create_SaleRawData(), helper.create_SaleRawData()]
+        raw_sales[0].id = uuid.uuid4() # random
+        raw_sales[1].id = uuid.uuid4() # random
+        record_ids = list(map(lambda sale: sale.id, raw_sales))
+
+        sale_raw_data_repository = Mock()
+        sale_raw_data_repository.list_by_id = Mock(return_value=raw_sales)
+        sale_repository = Mock()
+
+        sale_repository.insert = Mock()
+
+        processor = SaleDataProcessor(sale_raw_data_repository, sale_repository)
+
+        # execute
+        processor.process_new_records(record_ids)
+
+        # verify results
+        self.assertFalse(processor.errors)
+
+        # verify execution
+        sale_raw_data_repository.list_by_id.assert_called_once()
+        assert sale_repository.insert.call_count == len(record_ids)
+        #for id_ in record_ids:
+        #    sale_repository.insert.assert_called_with()  # check it is called with right id
+
 
     def _get_complete_address(self):
 

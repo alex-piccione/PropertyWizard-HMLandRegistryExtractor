@@ -53,13 +53,13 @@ class fileReaderTest(unittest.TestCase):
 
         expected_date = datetime(2002, 5, 31)
 
-        record = data[0]
+        record: SaleRawData = data[0]
         self.assertEqual("{4E95D757-1CA7-EDA1-E050-A8C0630539E2}", record.transaction_id, "transaction_id")
         self.assertEqual(970000, record.price, "price")
         self.assertEqual(expected_date, record.date, "date")
         self.assertEqual("SW3 2BZ", record.post_code, "post_code")
         self.assertEqual("F", record.property_type, "property_type")
-        self.assertEqual("N", record.yn, "yn")
+        self.assertEqual("N", record.new_build, "new_build")
         self.assertEqual("L", record.holding_type, "holding_type")
 
         self.assertEqual("paon", record.paon, "paon")
@@ -70,7 +70,7 @@ class fileReaderTest(unittest.TestCase):
         self.assertEqual("district", record.district, "district")
         self.assertEqual("county", record.county, "county")
 
-        self.assertEqual("x", record.x, "x")
+        self.assertEqual("transaction_category", record.transaction_category, "transaction_category")
         self.assertEqual("action", record.action, "action")
 
 

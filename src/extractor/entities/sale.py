@@ -2,7 +2,7 @@ from datetime import datetime
 
 class Sale():
 
-    def __init__(self, partial_post_code, post_code, city, address, property_type: str, date: datetime, price: float, new_house:bool):
+    def __init__(self, partial_post_code, post_code, city, address, property_type: str, date: datetime, price: float, new_build:bool):
 
         self.partial_post_code = partial_post_code
         self.post_code = post_code
@@ -11,4 +11,4 @@ class Sale():
         self.property_type = property_type
         self.date = date
         self.price = price
-        self.new_house = new_house  # indicates if it is a new building
+        self.new_build = new_build  # indicates if it is a new building

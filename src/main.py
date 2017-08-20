@@ -27,7 +27,7 @@ def run(csv_file: str):
 if __name__ == "__main__":
 
     if len(sys.argv) < 2:
-        print("No arguments no work to do")
+        print("CSV file argument missing")
         sys.exit(1)
 
     file_ = sys.argv[1]

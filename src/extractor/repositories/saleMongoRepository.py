@@ -17,7 +17,7 @@ class SaleMongoRepository(MongoRepositoryBase):
         super().__init__(connection_string, database, COLLECTION_HM_SALE)
 
 
-    def insert(self, sale:Sale):
+    def insert(self, sale: Sale):
 
         _id = uuid.uuid4()  # random
         create_date = datetime.utcnow()
