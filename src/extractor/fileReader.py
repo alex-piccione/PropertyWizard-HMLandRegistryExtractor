@@ -26,6 +26,8 @@ class FileReader():
 
         logger.info(f'Read file "{file_}"')
 
+        import os.path
+        generating_file = os.path.basename(file_)
         self.errors = []
         self.records = []
 
@@ -37,7 +39,7 @@ class FileReader():
 
             for line in reader:
                 try:
-                    sale_data = self._parse_line(line)
+                    sale_data = self._parse_line(line, generating_file)
                     self.records.append(sale_data)
                 except Exception as exc:
                     self.errors.append(str(exc))
@@ -47,7 +49,7 @@ class FileReader():
         return self.records
 
 
-    def _parse_line(self, line):
+    def _parse_line(self, line, generating_file) -> SaleRawData:
         guid = line[0]
         price = float(line[1])
         date_ = self._parse_date(line[2])  # datetime.strptime(line[2], "%Y-%m-%d").date() # datetime parsing is so crappy that I prefer to do it myself.  [0:10]  # get yyyy-MM-dd
@@ -67,7 +69,7 @@ class FileReader():
         x = line[14]
         action = line[15]  # Add, Change, Delete
 
-        item = SaleRawData(guid, price, date_, postcode, property_type, yn, hold_type,
+        item = SaleRawData(guid, generating_file, price, date_, postcode, property_type, yn, hold_type,
                            paon, saon, street, locality, city, district, county, x, action)
 
         return item

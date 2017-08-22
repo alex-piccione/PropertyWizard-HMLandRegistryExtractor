@@ -1,9 +1,11 @@
+from uuid import UUID
 from datetime import datetime
 
 class Sale():
 
-    def __init__(self, partial_post_code, post_code, city, address, property_type: str, date: datetime, price: float, new_build:bool):
+    def __init__(self, raw_data_id: UUID, partial_post_code, post_code, city, address, property_type: str, date: datetime, price: float, new_build: bool):
 
+        self.raw_data_id = raw_data_id
         self.partial_post_code = partial_post_code
         self.post_code = post_code
         self.city = city

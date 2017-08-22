@@ -8,6 +8,7 @@ from src.extractor.repositories import COLLECTION_HM_PRICE_DATA_RAW_EXTRACTION
 from extractor.entities.saleRawData import SaleRawData
 
 from tests.extractor import config  # dev config
+from tests import helper
 
 class SaleRawDataMongoRepositoryTest(unittest.TestCase):
 
@@ -28,7 +29,7 @@ class SaleRawDataMongoRepositoryTest(unittest.TestCase):
 
     def test_save__should__populate_the_right_fields(self):
 
-        sale_data = self._create_SaleRawData()
+        sale_data = helper.create_SaleRawData()
 
         try:
             # execute
@@ -77,7 +78,7 @@ class SaleRawDataMongoRepositoryTest(unittest.TestCase):
 
     def test_save__should__set_basic_fields(self):
 
-        sale_data = self._create_SaleRawData()
+        sale_data = helper.create_SaleRawData()
 
         try:
             # execute
@@ -102,10 +103,10 @@ class SaleRawDataMongoRepositoryTest(unittest.TestCase):
         start_date = datetime.utcnow() - timedelta(days=1)
         start_date = start_date.replace(hour=0, minute=0, second=0, microsecond=0)
 
-        old_item = self._create_SaleRawData()
+        old_item = helper.create_SaleRawData()
         old_item.date = start_date - timedelta(days=1)
 
-        new_item = self._create_SaleRawData()
+        new_item = helper.create_SaleRawData()
         new_item.date = start_date
 
         try:
@@ -135,8 +136,8 @@ class SaleRawDataMongoRepositoryTest(unittest.TestCase):
 
         try:
 
-            record_1 = self._create_SaleRawData()
-            record_2 = self._create_SaleRawData()
+            record_1 = helper.create_SaleRawData()
+            record_2 = helper.create_SaleRawData()
             id_1 = self._save_item(record_1)
             ids.append(id_1)
             id_2 = self._save_item(record_2)
@@ -166,7 +167,7 @@ class SaleRawDataMongoRepositoryTest(unittest.TestCase):
 
         try:
 
-            item = self._create_SaleRawData()
+            item = helper.create_SaleRawData()
             _id = self._save_item(item)
             document = self._get_document(item.transaction_id)
 
@@ -201,11 +202,17 @@ class SaleRawDataMongoRepositoryTest(unittest.TestCase):
 
     def test_change_date_to_datetime(self):
 
-        # todo
+        item = helper.create_SaleRawData()
+        date_ = item.date
 
-        # self.repository._change_date_to_datetime(item)
+        # execute
+        self.repository._change_date_to_datetime(item)
+        datetime_: datetime = item.date
 
-        pass
+        assert type(datetime_) is datetime
+        assert datetime_.year == date_.year
+        assert datetime_.month == date_.month
+        assert datetime_.day == date_.day
 
 
     # private utility
@@ -230,34 +237,8 @@ class SaleRawDataMongoRepositoryTest(unittest.TestCase):
         return _id
 
 
-    ## todo: use helper class
-    def _create_SaleRawData(self) -> SaleRawData:
-        transaction_id = uuid.uuid4()  # random
-        price = 1.23
-        date_ = date(2002, 5, 31)
-        post_code = "post code"
-        property_type = "property type"
-        yn = "y"
-        holding_type = "holding type"
-        paon = "paon"
-        saon = "saon"
-        street = "street"
-        locality = "locality"
-        city = "city"
-        district = "district"
-        county = "county"
-        x = "x"
-        action = "action"
-        item = SaleRawData(transaction_id, price, date_, post_code, property_type, yn, holding_type,
-                           paon, saon, street, locality, city, district, county, x, action)
-
-        return item
-
-
     def assertEqualDate(self, first: datetime, second: datetime, msg=None):
-        """Fail if the two objects are unequal as determined by the '=='
-           operator.
-        """
+        """Fail if the two objects are unequal as determined by the '==' operator."""
         assertion_func = self._getAssertEqualityFunc(first, second)
         assertion_func(first.year, second.year, msg=msg)
         assertion_func(first.month, second.month, msg=msg)

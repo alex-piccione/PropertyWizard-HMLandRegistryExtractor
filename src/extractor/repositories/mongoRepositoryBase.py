@@ -6,8 +6,8 @@ from extractor.repositories import logger
 
 class MongoRepositoryBase:
 
-    def __init__(self, connection_string, database:str, collection:str):
-        logger.info(f'Initialize. Database: "{database}. Colelction: {collection}"')
+    def __init__(self, connection_string, database: str, collection: str):
+        logger.info(f'Initialize. Database: "{database}". Collection: "{collection}"')
 
         # http://api.mongodb.com/python/current/tutorial.html?_ga=1.114535310.822912736.1490913716
 

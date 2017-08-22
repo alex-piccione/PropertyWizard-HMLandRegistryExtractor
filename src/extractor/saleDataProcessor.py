@@ -35,7 +35,7 @@ class SaleDataProcessor():
 
         while records_count > current_record:
 
-            paged_record_ids = record_ids[current_record:current_record+load_size]
+            paged_record_ids = record_ids[current_record: current_record+load_size]
 
             try:
                 raw_sales = self.sale_raw_data_repository.list_by_id(paged_record_ids)
@@ -57,7 +57,7 @@ class SaleDataProcessor():
                 partial_post_code = self._get_partial_post_code(raw_sale.post_code)
                 address = self._get_complete_address(raw_sale)
 
-                sale = Sale(partial_post_code, post_code=raw_sale.post_code,
+                sale = Sale(raw_data_id=raw_sale.id, partial_post_code=partial_post_code, post_code=raw_sale.post_code,
                             city=raw_sale.city, address=address,
                             property_type=raw_sale.property_type,
                             date=raw_sale.date, price=raw_sale.price, new_build=raw_sale.new_build)

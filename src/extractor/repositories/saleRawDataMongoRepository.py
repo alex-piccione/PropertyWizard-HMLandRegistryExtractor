@@ -22,6 +22,7 @@ class SaleRawDataMongoRepository(MongoRepositoryBase):
         document = {
             "_id": _id,
             "create_date": create_date,
+            "generating_file": item.generating_file,
 
             "transaction_id": item.transaction_id,
             "price": item.price,
@@ -81,6 +82,7 @@ class SaleRawDataMongoRepository(MongoRepositoryBase):
             create_date = document["create_date"]
 
             transaction_id = document["transaction_id"]
+            generating_file = document["generating_file"]
             price = document["price"]
             date_ = document["date"]
             post_code = document["post_code"]
@@ -97,7 +99,7 @@ class SaleRawDataMongoRepository(MongoRepositoryBase):
             transaction_category = document["transaction_category"]
             action = document["action"]
 
-            data = SaleRawData(transaction_id, price, date_, post_code,
+            data = SaleRawData(transaction_id, generating_file, price, date_, post_code,
                                property_type, new_build, holding_type,
                                paon, saon, street, locality, city, district, county,
                                transaction_category, action)

@@ -80,7 +80,7 @@ Action:                 A
 Reference: http://landregistry.data.gov.uk/app/ppd/search
 
 <pre>
-- Id:                   It is a UUID wrapped in curly brackets. It is duplicated also for completely different properties. What is it related to?
+- Id:                   It is a UUID wrapped in curly brackets. It is duplicated in 2 or 3 cases in the last years, I tend to consider that an error.
 - Price:                Sell price in GBP
 - Date:                 The date of the sale
    - Year
@@ -102,9 +102,15 @@ Reference: http://landregistry.data.gov.uk/app/ppd/search
 </pre>
  
 ## Note
+
+I set the transaction_id as unique key (and index) in the database.
 Some prices seems wrong. For example 1£ or 125 million of pounds.  
 The second case could be an error inserting the value with a wrong decimal character resulting 100 times more, so it could be 1million, and it is possible compared to other apartment in the same building.
-
+  
+3 thousands of records for year are duplicated for post code, address and date. How is possible?      
+Some addresses actually does not exist.  
+"6 Mountford Gardens" is not found by Google Map but you can find it in many web sites, also on Zoopla.
+There are 2 different sell on the same date, on this address, with different prices ! One is market "new building" ?!   
 
 # Heroku
 

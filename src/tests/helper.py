@@ -5,6 +5,7 @@ from extractor.entities.saleRawData import SaleRawData
 
 def create_SaleRawData() -> SaleRawData:
     transaction_id = uuid.uuid4()  # random
+    generating_file = "generating file"
     price = 1.23
     date_ = date(2002, 5, 31)
     post_code = "post code"
@@ -20,7 +21,7 @@ def create_SaleRawData() -> SaleRawData:
     county = "county"
     transaction_category = "B"
     action = "action"
-    item = SaleRawData(transaction_id, price, date_, post_code, property_type, new_build, holding_type,
+    item = SaleRawData(transaction_id, generating_file, price, date_, post_code, property_type, new_build, holding_type,
                        paon, saon, street, locality, city, district, county, transaction_category, action)
 
     return item

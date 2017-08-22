@@ -3,14 +3,15 @@ from datetime import datetime
 
 class SaleRawData():
 
-    def __init__(self, transaction_id: UUID, price: float, date: datetime, post_code: str, property_type: str, new_build: str, holding_type: str,
+    def __init__(self, transaction_id: UUID, generating_file: str, price: float, date: datetime, post_code: str, property_type: str, new_build: str, holding_type: str,
                  paon: str, saon: str, street: str, locality: str, city: str, district: str, county: str, transaction_category: str, action: str
                  ):
 
         self.id = None
         self.create_date = None
-
         self.transaction_id = transaction_id
+        self.generating_file = generating_file
+
         self.price = price
         self.date = date  # ensure it is a datetime before saving it on MongoDB to avoid error
         self.post_code = post_code

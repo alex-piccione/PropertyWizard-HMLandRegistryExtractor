@@ -25,8 +25,8 @@ class SaleMongoRepository(MongoRepositoryBase):
         document = {
             "_id": _id,
             "create_date": create_date,
+            "raw_data_id": sale.raw_data_id,
 
-            #"transaction_id": sale.transaction_id,
             "price": sale.price,
             "date": sale.date,
 
