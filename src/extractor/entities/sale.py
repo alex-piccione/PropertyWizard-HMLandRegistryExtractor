@@ -12,3 +12,7 @@ class Sale():
         self.date = date
         self.price = price
         self.new_build = new_build  # indicates if it is a new building
+
+    def __str__(self):
+
+        return f"post_code: {self.post_code}, date: {self.date}, address: {self.address}";

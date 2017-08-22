@@ -8,7 +8,8 @@ logger = Logger.create(__name__)
 
 class Process():
 
-    def __init__(self, file_reader: FileReader, sale_raw_data_repository: SaleRawDataMongoRepository, sale_data_processor: SaleDataProcessor):
+    def __init__(self, file_reader: FileReader, sale_raw_data_repository: SaleRawDataMongoRepository,
+                 sale_data_processor: SaleDataProcessor):
 
         self.file_reader = file_reader
         self.raw_data_repository = sale_raw_data_repository
@@ -38,14 +39,14 @@ class Process():
 
         # process the raw data
         try:
-            result = self.data_processor.process_new_records(new_records)
-            if not result.errors:
+            self.data_processor.process_new_records(new_records)
+            if not self.data_processor.errors:
                 logger.info(f'All records successfully processed.')
             else:
-                logger.error(result.errors)
+                logger.error(f"Fail to process new records. Number of errors: {len(self.data_processor.errors)}. /"
+                             f" First error: {self.data_processor.errors[0]}")
         except Exception as error:
             return logger.fatal(f"Fail to process records. {error}")
-
 
         logger.info(f'Process end.')
 

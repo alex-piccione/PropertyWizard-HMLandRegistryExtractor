@@ -11,14 +11,19 @@ It is a Python script that run on scheduled times.
 
 The program can elaborate Price Paid Data CSV file obtained from HM Land Property.   
 Thew process start with a call to main.py passing the CSV file to read.  
-The CSV file is parsed and raw data is stored in the database.  
-A second step is the extrapolation of custom data from the raw data and a new saving in the database.
-The new data contains relevant data. The Address is composed using raw data fields.  
-A partial post code is extracted (district) to be used a search key.  
+The CSV file is parsed and raw data is stored in the database (MongoDB).  
+In a second step custom data is generated from the raw data and saved in a new position in the database.
+The new data contains only relevant data from the source and processed information. The Address is composed using raw data fields.   
+Partial post code is extracted (district) to be used a search key.  
 
-Data contains a property ("action") which is still not clear how should be used.    
-It indicates that the record can be a deletion or a change of previous one.  
-It is also not clear what is the unique identifier of records (if exists).   
+Original records from HM Land Registry contains a field ("action") which is still not clear how should be used.    
+It indicates that the record can be new or a deletion or a change of previous one.  
+It is also not clear what is the unique identifier of records (if there is one).   
+
+The process can be execute against a file that contains the same data multiple times (it is idempotent) ?
+How to recognize that a file is already elaborated and eventually force a new elaboration?
+The process can retrieve the file itself?
+
 
 # HM Land Registry
 
@@ -41,6 +46,11 @@ The following fields comprise the address data included in Price Paid Data:
 - Town/City
 - District
 - County
+
+## Transaction ID
+
+It can be duplicated (ex.: {49B7852A-2AAF-7921-E050-A8C063056E8D}). 
+
 
 ### Example data
 
@@ -66,8 +76,11 @@ Action:                 A
 </pre>
 
 # Description of the fields:
+
+Reference: http://landregistry.data.gov.uk/app/ppd/search
+
 <pre>
-- Id:                   It is a GUID wrapped in curly brackets. It is duplicated also for completely different properties. What is it related to?
+- Id:                   It is a UUID wrapped in curly brackets. It is duplicated also for completely different properties. What is it related to?
 - Price:                Sell price in GBP
 - Date:                 The date of the sale
    - Year

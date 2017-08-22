@@ -20,7 +20,7 @@ class FileReader():
         Parse the CSV file.
 
         :param file_: CSV file
-        :param has_headers: fisrt row contains fields names?
+        :param has_headers: first row contains fields names?
         :return: an array of SaleRawData
         """
 

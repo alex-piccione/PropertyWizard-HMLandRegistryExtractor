@@ -1,12 +1,15 @@
-from datetime import datetime
-import math
 from typing import List
+from extractor.logger import Logger
 from extractor.entities.saleRawData import SaleRawData
 from extractor.entities.sale import Sale
 from extractor.repositories.saleMongoRepository import SaleMongoRepository
 from extractor.repositories.saleRawDataMongoRepository import SaleRawDataMongoRepository
 from extractor.exceptions.processSaleError import ProcessSaleError
 
+
+logger = Logger.create(__name__)
+
+load_size = 50000 # number of record loaded in a single query
 
 class SaleDataProcessor():
 
@@ -25,15 +28,26 @@ class SaleDataProcessor():
 
         self.errors = []
 
-        try:
-            raw_sales = self.sale_raw_data_repository.list_by_id(record_ids)
-        except Exception as error:
-            raise Exception("Fail to load raw sales", error)
+        # cannot load all the documents in a single query, MongoDB default BSON document max size is not enough
 
-        try:
-            self._process_sales(raw_sales)
-        except Exception as error:
-            raise Exception("Fail to process raw sales", error)
+        records_count = len(record_ids)
+        current_record = 0
+
+        while records_count > current_record:
+
+            paged_record_ids = record_ids[current_record:current_record+load_size]
+
+            try:
+                raw_sales = self.sale_raw_data_repository.list_by_id(paged_record_ids)
+            except Exception as error:
+                raise Exception("Fail to load raw sales", error)
+
+            try:
+                self._process_sales(raw_sales)
+            except Exception as error:
+                raise Exception("Fail to process raw sales", error)
+
+            current_record += load_size
 
 
     def _process_sales(self, raw_sales: List[SaleRawData]):
@@ -51,6 +65,7 @@ class SaleDataProcessor():
                 self.sale_repository.insert(sale)
 
             except Exception as error:
+                logger.error(f"Fail to process sale raw data. {error}")
                 self.errors.append(ProcessSaleError(raw_sale.id, error))
 
 

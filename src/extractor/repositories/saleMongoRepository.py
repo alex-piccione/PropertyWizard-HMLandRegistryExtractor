@@ -26,7 +26,7 @@ class SaleMongoRepository(MongoRepositoryBase):
             "_id": _id,
             "create_date": create_date,
 
-            "transaction_id": sale.transaction_id,
+            #"transaction_id": sale.transaction_id,
             "price": sale.price,
             "date": sale.date,
 
@@ -42,6 +42,6 @@ class SaleMongoRepository(MongoRepositoryBase):
         if result.acknowledged:
             return result.inserted_id
         else:
-            logger.fatal(f'{self.__class__} .save(...) return "Not acknowledged". Transaction Id: "{item.transaction_id}".')
+            logger.fatal(f'{self.__class__} .save(...) return "Not acknowledged". Sale: "{sale}".')
             raise Exception("Not acknowledged")
 
