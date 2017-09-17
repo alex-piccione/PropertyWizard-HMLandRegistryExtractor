@@ -15,15 +15,19 @@ The CSV file is parsed and raw data is stored in the database (MongoDB).
 In a second step custom data is generated from the raw data and saved in a new position in the database.
 The new data contains only relevant data from the source and processed information. The Address is composed using raw data fields.   
 Partial post code is extracted (district) to be used a search key.  
+Data are stored in a MongoDB database.
 
-Original records from HM Land Registry contains a field ("action") which is still not clear how should be used.    
-It indicates that the record can be new or a deletion or a change of previous one.  
-It is also not clear what is the unique identifier of records (if there is one).   
+"Transaction ID" is (should be) the unique identifier for records. 
 
-The process can be execute against a file that contains the same data multiple times (it is idempotent) ?
+The process can be execute against a file that contains the same data multiple times (it is idempotent).
 How to recognize that a file is already elaborated and eventually force a new elaboration?
 The process can retrieve the file itself?
 
+
+## Developer configuration
+
+The program read configuration from the config.py file.
+On the local dev machine you can use a config_dev.py file that override the default values.
 
 # HM Land Registry
 
@@ -103,14 +107,13 @@ Reference: http://landregistry.data.gov.uk/app/ppd/search
  
 ## Note
 
-I set the transaction_id as unique key (and index) in the database.
-Some prices seems wrong. For example 1£ or 125 million of pounds.  
-The second case could be an error inserting the value with a wrong decimal character resulting 100 times more, so it could be 1million, and it is possible compared to other apartment in the same building.
+Some prices seems wrong. For example 1£ or 125 millions of pounds.  
+The second case could be an error inserting the value with a wrong decimal character resulting 100 times more. It could be 1 million, and this is resasonable compared to the other apartments in the same building.
   
-3 thousands of records for year are duplicated for post code, address and date. How is possible?      
+3 thousands of records for year are duplicated for post code, address and date. How is it possible?      
 Some addresses actually does not exist.  
 "6 Mountford Gardens" is not found by Google Map but you can find it in many web sites, also on Zoopla.
-There are 2 different sell on the same date, on this address, with different prices ! One is market "new building" ?!   
+There are 2 different sells on the same date, on this address, with different prices! One is market "new building" the other not ?!   
 
 # Heroku
 
