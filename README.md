@@ -1,9 +1,9 @@
 # HM Land Registry Extractor
-__part of: Property Wizard__  
-__last update: 16 August 2017__
-
+Part of the Property Wizard project   
+Last update: 16 August 2017
+  
 This program is an extractor of the HM Land Registry public data.  
-The extracted data are stored for a successive use by the Property Wizard API.  
+The extracted data are stored for a successive use by the [Property Wizard API](https://github.com/alex75it/PropertyWizard-API).  
 It is a Python script that run on scheduled times.
 
 
